@@ -40,8 +40,10 @@ end
 local function update(bufnr)
     local lang_tree = buffers[bufnr].parser
     local trees = lang_tree:trees()
-    local ts_node = trees[1]:root()
-    set_bold(ts_node, bufnr)
+    local ok, ts_node = pcall(function() return trees[1]:root() end)
+    if ok and ts_node then
+        set_bold(ts_node, bufnr)
+    end
 end
 
 ---@param bufnr integer
